@@ -47,12 +47,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Expense::class)->latest();
     }
-
-
-    public function getExpenses()
-    {
-        $thisUserId = $this->id;
-
-        return Expense::where('user_id', $thisUserId)->latest()->get();
-    }
 }

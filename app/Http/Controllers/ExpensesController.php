@@ -10,11 +10,10 @@ class ExpensesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function index()
     {
-        $expenses = current_user()->getExpenses();
+        $expenses = current_user()->expenses;
 
         return view('expenses.index', [
             'expenses' => $expenses
@@ -43,14 +42,16 @@ class ExpensesController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Used to display details about the specified Expense.
      *
      * @param  \App\Expense  $expense
-     * @return \Illuminate\Http\Response
+     * @return  View template
      */
     public function show(Expense $expense)
     {
-        //
+        return view('expenses.show', [
+           'expense' =>  $expense
+        ]);
     }
 
     /**

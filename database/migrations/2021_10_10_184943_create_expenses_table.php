@@ -17,10 +17,9 @@ class CreateExpensesTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->string('title');
-            $table->string('category');
             $table->decimal('price');
             $table->smallInteger('amount');
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')
