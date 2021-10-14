@@ -4,7 +4,7 @@
     <div>
         <h1>Welcome to the expenses page!</h1>
 
-        <form method="POST" action="route('expenses.store')">
+        <form method="POST" action="{{ route('expenses.store') }}">
             @csrf
 
             <div class="field">
@@ -33,7 +33,7 @@
                            class="input @error('title') is-danger @enderror"
                            name="price"
                            id="price"
-                           value="{{ old('price') }}"
+                           value="{{ 'Please enter a number between 0 and 9999999' }}"
                            required>
 
                     @error('price')

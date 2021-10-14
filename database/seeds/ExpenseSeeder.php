@@ -11,6 +11,6 @@ class ExpenseSeeder extends Seeder
      */
     public function run()
     {
-        //
+        // factory('App\Expense', 3)->create(['user_id' => 1]);
     }
 }

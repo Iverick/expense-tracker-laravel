@@ -34,11 +34,22 @@ class ExpensesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
-        //
+        $user_id = auth()->id();
+        $validAttributes = request()->validate([
+            'title' => 'required|unique:expenses,title|max:55',
+            'price' => 'required|numeric|between:0,999999',
+            'amount' => 'required|integer|between:1,200',
+            'notes' => 'nullable',
+        ]);
+        $validAttributes['user_id'] = $user_id;
+
+        Expense::create($validAttributes);
+
+        return redirect()->route('expenses.index');
     }
 
     /**
