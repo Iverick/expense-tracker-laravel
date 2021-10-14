@@ -40,7 +40,7 @@ class ExpensesController extends Controller
     {
         $user_id = auth()->id();
         $validAttributes = request()->validate([
-            'title' => 'required|unique:expenses,title|max:55',
+            'title' => 'required|string|unique:expenses,title|max:55',
             'price' => 'required|numeric|between:0,999999',
             'amount' => 'required|integer|between:1,200',
             'notes' => 'nullable',
@@ -66,26 +66,24 @@ class ExpensesController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Expense  $expense
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Expense $expense)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Expense $expense)
+    public function update(Expense $expense)
     {
-        //
+        $validated_attributes = request()->validate([
+            'title' => 'required|string|max:55',
+            'price' => 'required|numeric|between:0,999999',
+            'amount' => 'required|integer|between:1,200',
+            'notes' => 'nullable',
+        ]);
+
+        $expense->update($validated_attributes);
+
+        return redirect(route('expenses.show', $expense->title));
     }
 
     /**
