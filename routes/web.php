@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+// ExpensesController routes
 Route::get('/expenses', 'ExpensesController@index')->name('expenses.index');
 Route::post('/expenses', 'ExpensesController@store')->name('expenses.store');
 Route::get('/expenses/{expense:title}', 'ExpensesController@show')->name('expenses.show');

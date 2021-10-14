@@ -26,7 +26,7 @@ class ExpensesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function store(Request $request)
     {
         $user_id = auth()->id();
         $validAttributes = request()->validate([
@@ -63,7 +63,7 @@ class ExpensesController extends Controller
      * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function update(Expense $expense)
+    public function updaёte(Expense $expense)
     {
         $validated_attributes = request()->validate([
             'title' => 'required|string|max:55',
