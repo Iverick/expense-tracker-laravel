@@ -9,7 +9,14 @@
     @else
         <p>{{ $expense->notes }}</p>
     @endempty
-    <p>{{ $expense->created_at }}</p>
+    <p>{{ $expense->updated_at->format('Y-m-d') }}</p>
+
+    <form method="POST" action="{{ route('expenses.destroy', $expense->title) }}">
+        @csrf
+        @method('DELETE')
+
+        <button class="btn btn-danger">Delete expense</button>
+    </form>
 
     <form method="POST" action="{{ route('expenses.update', $expense->title) }}">
         @csrf

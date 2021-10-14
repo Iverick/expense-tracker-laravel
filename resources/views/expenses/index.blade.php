@@ -19,7 +19,7 @@
                         {{ $expense->title }}
                     </a>
                     <p>{{ $expense->price }}</p>
-                    <p>{{ $expense->created_at->format('Y-m-d') }}</p>
+                    <p>{{ $expense->created_at->diffForHumans() }}</p>
                     <p>{{ $expense->user->name }}</p>
                 </div>
             @endforeach

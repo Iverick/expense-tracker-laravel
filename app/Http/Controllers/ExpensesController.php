@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class ExpensesController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Displays a list of expenses.
      *
      */
     public function index()
@@ -21,17 +21,7 @@ class ExpensesController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Stores a newly Expense resource in database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
@@ -53,7 +43,7 @@ class ExpensesController extends Controller
     }
 
     /**
-     * Used to display details about the specified Expense.
+     * Displays details about the specified Expense.
      *
      * @param  \App\Expense  $expense
      * @return  View template
@@ -66,7 +56,8 @@ class ExpensesController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified Expense in the database.
+     * Redirects back to the expense page on success.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Expense  $expense
@@ -87,13 +78,17 @@ class ExpensesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified Expense resource from database.
+     * Redirects to the expenses page on success.
      *
-     * @param  \App\Expense  $expense
+     * @param \App\Expense $expense
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Expense $expense)
     {
-        //
+        $expense->delete();
+
+        return redirect(route('expenses.index'));
     }
 }
