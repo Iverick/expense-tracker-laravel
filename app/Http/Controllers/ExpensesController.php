@@ -63,7 +63,7 @@ class ExpensesController extends Controller
      * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function updaёte(Expense $expense)
+    public function update(Expense $expense)
     {
         $validated_attributes = request()->validate([
             'title' => 'required|string|max:55',

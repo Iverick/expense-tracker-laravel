@@ -39,7 +39,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Used to extract a list of Expenses created by the User.
+     * Extracts a list of Expenses created by the User.
      *
      * @return HasMany
      */

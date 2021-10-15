@@ -56,8 +56,7 @@
     <div class="control">
                     <textarea name="notes"
                               id="notes"
-                              cols="30"
-                              rows="2"
+                              rows="3"
                               class="form-control @error('notes') is-danger @enderror">
                         {{ old('notes') }}
                     </textarea>
