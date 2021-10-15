@@ -38,7 +38,7 @@
                             <div class="card-body">
                                 <ul class="list-group list-unstyled justify-content-around">
                                     <li class="list-group-item">
-                                        <p>Price:  {{ $expense->price }}</p>
+                                        <h5>Price:  {{ $expense->price }}</h5>
                                     </li>
                                     <li class="list-group-item">
                                         <p>Added:  {{ $expense->created_at->diffForHumans() }}</p>
@@ -50,6 +50,11 @@
                     <h5>There are no expenses stored! Click the button above to add a new one!</h5>
                 @endforelse
             </div>
+
+            <ul class="pagination d-flex justify-content-center">
+                {{ $expenses->onEachSide(5)->links() }}
+            </ul>
+
         </div>
     </div>
 @endsection

@@ -13,7 +13,9 @@ class ExpensesController extends Controller
      */
     public function index()
     {
-        $expenses = current_user()->expenses;
+        $expenses = current_user()->expenses()->simplePaginate(5);
+
+        // dd($expenses);
 
         return view('expenses.index', [
             'expenses' => $expenses
