@@ -50,8 +50,8 @@ class ExpensesController extends Controller
      */
     public function show(Expense $expense)
     {
-        // dd($expense);
         if ($expense->user_id !== current_user()->id) {
+            // Verifies if the Expense was created by the requesting User and throws 403 if verification fails.
             abort(403);
         }
         return view('expenses.show', [
