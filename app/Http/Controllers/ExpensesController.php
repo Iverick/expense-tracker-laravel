@@ -15,8 +15,6 @@ class ExpensesController extends Controller
     {
         $expenses = current_user()->expenses()->simplePaginate(5);
 
-        // dd($expenses);
-
         return view('expenses.index', [
             'expenses' => $expenses
         ]);
@@ -32,7 +30,7 @@ class ExpensesController extends Controller
     {
         $user_id = auth()->id();
         $validAttributes = request()->validate([
-            'title' => 'required|string|unique:expenses,title|max:55',
+            'title' => 'required|string|max:55|unique:expenses,title,user_id,'.$user_id,
             'price' => 'required|numeric|between:0,999999',
             'amount' => 'required|integer|between:1,200',
             'notes' => 'nullable',
@@ -52,6 +50,10 @@ class ExpensesController extends Controller
      */
     public function show(Expense $expense)
     {
+        // dd($expense);
+        if ($expense->user_id !== current_user()->id) {
+            abort(403);
+        }
         return view('expenses.show', [
            'expense' =>  $expense
         ]);
