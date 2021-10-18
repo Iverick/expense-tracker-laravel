@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Expense;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ExpensesController extends Controller
 {
@@ -30,16 +31,19 @@ class ExpensesController extends Controller
     {
         $user_id = auth()->id();
         $validAttributes = request()->validate([
-            'title' => 'required|string|max:55|unique:expenses,title,user_id,'.$user_id,
+            'title' => 'required|string|max:55',
             'price' => 'required|numeric|between:0,999999',
             'amount' => 'required|integer|between:1,200',
             'notes' => 'nullable',
         ]);
         $validAttributes['user_id'] = $user_id;
 
-        Expense::create($validAttributes);
+        $new_expense = Expense::create($validAttributes);
+        $new_expense->save();
 
-        return redirect()->route('expenses.index');
+        return redirect()->route('expenses.show', [
+            'expense' =>  $new_expense
+        ]);
     }
 
     /**
@@ -78,7 +82,7 @@ class ExpensesController extends Controller
 
         $expense->update($validated_attributes);
 
-        return redirect(route('expenses.show', $expense->title));
+        return redirect(route('expenses.show', $expense));
     }
 
     /**

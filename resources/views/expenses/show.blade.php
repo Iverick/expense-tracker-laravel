@@ -59,7 +59,7 @@
 
                 <div class="card-footer d-flex justify-content-between">
                     <a class="btn btn-primary" href="{{ route('expenses.index') }}">Go Back</a>
-                    <form method="POST" action="{{ route('expenses.destroy', $expense->title) }}">
+                    <form method="POST" action="{{ route('expenses.destroy', $expense->id) }}">
                         @csrf
                         @method('DELETE')
 
@@ -71,7 +71,7 @@
 
         <div class="col-5">
             <h3 class="mt-3 text-center">Edit this expense</h3>
-            <form method="POST" action="{{ route('expenses.update', $expense->title) }}">
+            <form method="POST" action="{{ route('expenses.update', $expense->id) }}">
                 @csrf
                 @method('PUT')
 
