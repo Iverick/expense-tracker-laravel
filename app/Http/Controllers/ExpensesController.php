@@ -47,17 +47,17 @@ class ExpensesController extends Controller
     }
 
     /**
-     * Displays details about the specified Expense.
+     * Displays details about the specified Expense. Allows access to the view only for the User,
+     * who created this expense.
      *
-     * @param  \App\Expense  $expense
+     * @param \App\Expense $expense
      * @return  View template
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Expense $expense)
     {
-        if ($expense->user_id !== current_user()->id) {
-            // Verifies if the Expense was created by the requesting User and throws 403 if verification fails.
-            abort(403);
-        }
+        $this->authorize('show', $expense);
+
         return view('expenses.show', [
            'expense' =>  $expense
         ]);
