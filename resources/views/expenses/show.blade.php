@@ -58,7 +58,7 @@
                 </div>
 
                 <div class="card-footer d-flex justify-content-between">
-                    <a class="btn btn-primary" href="{{ route('expenses.index') }}">Go Back</a>
+                    <a class="btn btn-outline-primary" href="{{ route('expenses.index') }}">Go Back</a>
                     <form method="POST" action="{{ route('expenses.destroy', $expense->id) }}">
                         @csrf
                         @method('DELETE')

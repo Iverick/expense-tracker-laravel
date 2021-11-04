@@ -67,8 +67,8 @@
     </div>
 </div> <!-- notes field -->
 
-<div class="field is-grouped">
+<div class="field is-grouped justify-content-center d-flex">
     <div class="control mt-3">
-        <button class="btn btn-success" type="submit">Submit</button>
+        <button class="btn btn-success btn-lg btn-block" type="submit">Submit</button>
     </div>
 </div>

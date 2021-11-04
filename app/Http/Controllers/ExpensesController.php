@@ -30,12 +30,7 @@ class ExpensesController extends Controller
     public function store(Request $request)
     {
         $user_id = auth()->id();
-        $validAttributes = request()->validate([
-            'title' => 'required|string|max:55',
-            'price' => 'required|numeric|between:0,999999',
-            'amount' => 'required|integer|between:1,200',
-            'notes' => 'nullable',
-        ]);
+        $validAttributes = $this->validateExpenseFields();
         $validAttributes['user_id'] = $user_id;
 
         $new_expense = Expense::create($validAttributes);
@@ -73,12 +68,7 @@ class ExpensesController extends Controller
      */
     public function update(Expense $expense)
     {
-        $validated_attributes = request()->validate([
-            'title' => 'required|string|max:55',
-            'price' => 'required|numeric|between:0,999999',
-            'amount' => 'required|integer|between:1,200',
-            'notes' => 'nullable',
-        ]);
+        $validated_attributes = $this->validateExpenseFields();
 
         $expense->update($validated_attributes);
 
@@ -98,5 +88,20 @@ class ExpensesController extends Controller
         $expense->delete();
 
         return redirect(route('expenses.index'));
+    }
+
+    /**
+     * Helper method that validates field for the Expense instance passed from the request
+     *
+     * @return array
+     */
+    public function validateExpenseFields()
+    {
+        return request()->validate([
+            'title' => 'required|string|max:55',
+            'price' => 'required|numeric|between:0,999999',
+            'amount' => 'required|integer|between:1,200',
+            'notes' => 'nullable',
+        ]);
     }
 }
