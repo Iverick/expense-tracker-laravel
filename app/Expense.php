@@ -19,7 +19,7 @@ class Expense extends Model
     /**
      * Declare Many-To-One relationship to the User model
      */
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

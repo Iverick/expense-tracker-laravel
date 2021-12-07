@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Expense;
+use App\Http\Requests\StoreExpenseRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class ExpensesController extends Controller
@@ -14,7 +16,7 @@ class ExpensesController extends Controller
      */
     public function index()
     {
-        $expenses = current_user()->expenses()->simplePaginate(5);
+        $expenses = Auth::user()->expenses()->simplePaginate(5);
 
         return view('expenses.index', [
             'expenses' => $expenses
@@ -24,21 +26,26 @@ class ExpensesController extends Controller
     /**
      * Stores a newly Expense resource in database.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreExpenseRequest $request)
     {
-        $user_id = auth()->id();
-        $validAttributes = $this->validateExpenseFields();
-        $validAttributes['user_id'] = $user_id;
-
-        $new_expense = Expense::create($validAttributes);
-        $new_expense->save();
-
-        return redirect()->route('expenses.show', [
-            'expense' =>  $new_expense
+        $new_expense = Expense::create([
+            'user_id' => Auth::user()->id,
+            'title' => $request->title,
+            'price' => $request->price,
+            'amount' => $request->amount,
+            'notes' => $request->notes
         ]);
+
+        if ($new_expense) {
+            return redirect()->route('expenses.show', [
+                'expense' => $new_expense
+            ]);
+        }
+
+        return redirect()->back();
     }
 
     /**
@@ -51,10 +58,12 @@ class ExpensesController extends Controller
      */
     public function show(Expense $expense)
     {
-        $this->authorize('show', $expense);
+        if ($expense->user_id !== Auth::id()) {
+            return abort(403);
+        }
 
         return view('expenses.show', [
-           'expense' =>  $expense
+            'expense' => $expense
         ]);
     }
 
@@ -62,15 +71,18 @@ class ExpensesController extends Controller
      * Update the specified Expense in the database.
      * Redirects back to the expense page on success.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Expense  $expense
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Expense $expense
      * @return \Illuminate\Http\Response
      */
-    public function update(Expense $expense)
+    public function update(StoreExpenseRequest $request, Expense $expense)
     {
-        $validated_attributes = $this->validateExpenseFields();
-
-        $expense->update($validated_attributes);
+        $expense->update([
+            'title' => $request->title,
+            'price' => $request->price,
+            'amount' => $request->amount,
+            'notes' => $request->notes
+        ]);
 
         return redirect(route('expenses.show', $expense));
     }
@@ -85,6 +97,10 @@ class ExpensesController extends Controller
      */
     public function destroy(Expense $expense)
     {
+        if ($expense->user_id !== Auth::id()) {
+            return abort(403);
+        }
+
         $expense->delete();
 
         return redirect(route('expenses.index'));
