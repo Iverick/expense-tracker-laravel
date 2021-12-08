@@ -18,9 +18,7 @@ class ExpensesController extends Controller
     {
         $expenses = Auth::user()->expenses()->simplePaginate(5);
 
-        return view('expenses.index', [
-            'expenses' => $expenses
-        ]);
+        return view('expenses.index', compact('expenses'));
     }
 
     /**
@@ -31,7 +29,7 @@ class ExpensesController extends Controller
      */
     public function store(StoreExpenseRequest $request)
     {
-        $new_expense = Expense::create([
+        $expense = Expense::create([
             'user_id' => Auth::user()->id,
             'title' => $request->title,
             'price' => $request->price,
@@ -39,10 +37,8 @@ class ExpensesController extends Controller
             'notes' => $request->notes
         ]);
 
-        if ($new_expense) {
-            return redirect()->route('expenses.show', [
-                'expense' => $new_expense
-            ]);
+        if ($expense) {
+            return redirect()->route('expenses.show', compact('expense'));
         }
 
         return redirect()->back();
@@ -62,9 +58,7 @@ class ExpensesController extends Controller
             return abort(403);
         }
 
-        return view('expenses.show', [
-            'expense' => $expense
-        ]);
+        return view('expenses.show', compact('expense'));
     }
 
     /**
@@ -104,20 +98,5 @@ class ExpensesController extends Controller
         $expense->delete();
 
         return redirect(route('expenses.index'));
-    }
-
-    /**
-     * Helper method that validates field for the Expense instance passed from the request
-     *
-     * @return array
-     */
-    public function validateExpenseFields()
-    {
-        return request()->validate([
-            'title' => 'required|string|max:55',
-            'price' => 'required|numeric|between:0,999999',
-            'amount' => 'required|integer|between:1,200',
-            'notes' => 'nullable',
-        ]);
     }
 }

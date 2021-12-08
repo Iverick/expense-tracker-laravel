@@ -63,7 +63,10 @@
                         @csrf
                         @method('DELETE')
 
-                        <button class="btn btn-danger">Delete expense</button>
+                        <button class="btn btn-danger"
+                                onclick="return confirm('Are you sure?')">
+                            Delete expense
+                        </button>
                     </form>
                 </div>
             </div>

@@ -21,14 +21,14 @@
     <div class="control">
         <input type="number"
                step=".1"
-               class="form-control @error('price') is-danger @enderror"
+               class="form-control @error('price') is-invalid @enderror"
                name="price"
                id="price"
                value="{{ old('price') }}"
                required>
 
         @error('price')
-        <p class="help is-danger">{{ $errors->first('price') }}</p>
+        <div class="help invalid-feedback">{{ $errors->first('price') }}</div>
         @enderror
     </div>
 </div><!-- price field -->
@@ -38,14 +38,14 @@
 
     <div class="control">
         <input type="number"
-               class="form-control @error('amount') is-danger @enderror"
+               class="form-control @error('amount') is-invalid @enderror"
                name="amount"
                id="amount"
                value="{{ old('amount') }}"
                required>
 
         @error('amount')
-        <p class="help is-danger">{{ $errors->first('amount') }}</p>
+        <p class="help invalid-feedback">{{ $errors->first('amount') }}</p>
         @enderror
     </div>
 </div><!-- amount field -->
@@ -57,12 +57,12 @@
                     <textarea name="notes"
                               id="notes"
                               rows="3"
-                              class="form-control @error('notes') is-danger @enderror">
+                              class="form-control @error('notes') is-invalid @enderror">
                         {{ old('notes') }}
                     </textarea>
 
         @error('notes')
-            <p class="help is-danger">{{ $errors->first('notes') }}</p>
+        <p class="help invalid-feedback">{{ $errors->first('notes') }}</p>
         @enderror
     </div>
 </div> <!-- notes field -->
