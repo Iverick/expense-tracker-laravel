@@ -25,32 +25,34 @@
 
             <hr>
 
-            <!-- Add Expense form widget -->
-            <div class="flex">
-                <a class="btn btn-primary"
-                   data-toggle="collapse"
-                   href="#collapseCreateForm"
-                   role="button"
-                   aria-expanded="false"
-                   aria-controls="collapseExample"
-                >
-                    Click to add Expense
-                </a>
-            </div>
+            @if(!request()->get('search'))
+                <!-- Add Expense form widget -->
+                <div class="flex">
+                    <a class="btn btn-primary"
+                       data-toggle="collapse"
+                       href="#collapseCreateForm"
+                       role="button"
+                       aria-expanded="false"
+                       aria-controls="collapseExample"
+                    >
+                        Click to add Expense
+                    </a>
+                </div>
 
-            <div class="collapse" id="collapseCreateForm">
-                <form method="POST" action="{{ route('expenses.store') }}">
-                    @csrf
-                    @include('components._create_expense_form')
-                </form>
-            </div>
-            <!-- End of the add Expense form widget -->
+                <div class="collapse" id="collapseCreateForm">
+                    <form method="POST" action="{{ route('expenses.store') }}">
+                        @csrf
+                        @include('components._create_expense_form')
+                    </form>
+                </div>
 
-            <hr>
+                <hr>
+                <!-- End of the add Expense form widget -->
+            @endif
 
             <!-- List expenses widget -->
             <div>
-                <h3 class="mt-2 mb-3">List of your expenses</h3>
+                <h3 class="mt-3 mb-3">List of your expenses</h3>
                 @forelse($expenses as $expense)
                     <div class="card mt-2 mb-4 rounded-3 shadow-sm">
                         <h5 class="card-header text-center">
@@ -77,10 +79,10 @@
             <!-- End list expenses widget -->
 
             @if(!request()->get('search'))
-            <ul class="pagination d-flex justify-content-center">
-                {{ $expenses->links() }}
-            </ul>
-                @endif
+                <ul class="pagination d-flex justify-content-center">
+                    {{ $expenses->links() }}
+                </ul>
+            @endif
 
         </div>
     </div>

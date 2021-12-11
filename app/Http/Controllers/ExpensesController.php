@@ -17,23 +17,14 @@ class ExpensesController extends Controller
      */
     public function index(Request $request)
     {
-        $expenses = Auth::user()->expenses()->simplePaginate(5);
-
         if ($request->has('search')) {
-            $query = strtolower($request->get('search'));
-            $expenses = $expenses->filter(function($expense) use($query) {
-                if (Str::contains(strtolower($expense->title), $query)) {
-                    return true;
-                }
-
-                if (Str::contains(strtolower($expense->notes), $query)) {
-                    return true;
-                }
-
-                return false;
-            });
+            // If URL search param was provided use helper method to search through the DB entries.
+            $expenses = $this->searchExpenseItems($request);
+            return view('expenses.index', compact('expenses'));
         }
 
+        // Returns paginated list of elements
+        $expenses = Auth::user()->expenses()->simplePaginate(5);
         return view('expenses.index', compact('expenses'));
     }
 
@@ -114,5 +105,29 @@ class ExpensesController extends Controller
         $expense->delete();
 
         return redirect(route('expenses.index'));
+    }
+
+    /**
+     * Helper method filters the Expense entries based on the search URL parameter.
+     *
+     * @param Request $request
+     * @return Expense[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function searchExpenseItems(Request $request)
+    {
+        $query = strtolower($request->get('search'));
+        $expenses = Auth::user()->expenses;
+        $expenses = $expenses->filter(function ($expense) use ($query) {
+            if (Str::contains(strtolower($expense->title), $query)) {
+                return true;
+            }
+
+            if (Str::contains(strtolower($expense->notes), $query)) {
+                return true;
+            }
+
+            return false;
+        });
+        return $expenses;
     }
 }

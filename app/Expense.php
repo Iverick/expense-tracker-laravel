@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static latest()
  * @method static where(string $string, mixed $thisUserId)
  * @method static create(array $array)
+ * @method static filter(\Closure $param)
  */
 class Expense extends Model
 {
