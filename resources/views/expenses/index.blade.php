@@ -5,13 +5,35 @@
         <div>
             <h1 class="jumbotron">Welcome to the expenses page!</h1>
 
+            <!-- Search form widget -->
+            <div class="card mb-4">
+                <div class="card-header">Search</div>
+                <div class="card-body">
+                    <form action="{{ route('expenses.index') }}" method="GET" class="input-group">
+                        <input
+                            type="text"
+                            id="search"
+                            name="search"
+                            class="form-control rounded mr-4"
+                            placeholder="Look for the expense title"
+                            value="{{ request()->get('search') }}"
+                        />
+                        <button class="btn btn-success" id="button-search" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Add Expense form widget -->
             <div class="flex">
                 <a class="btn btn-primary"
                    data-toggle="collapse"
                    href="#collapseCreateForm"
                    role="button"
                    aria-expanded="false"
-                   aria-controls="collapseExample">
+                   aria-controls="collapseExample"
+                >
                     Click to add Expense
                 </a>
             </div>
@@ -19,12 +41,14 @@
             <div class="collapse" id="collapseCreateForm">
                 <form method="POST" action="{{ route('expenses.store') }}">
                     @csrf
-                    @include('_create_expense_form')
+                    @include('components._create_expense_form')
                 </form>
             </div>
+            <!-- End of the add Expense form widget -->
 
             <hr>
 
+            <!-- List expenses widget -->
             <div>
                 <h3 class="mt-2 mb-3">List of your expenses</h3>
                 @forelse($expenses as $expense)
@@ -50,10 +74,13 @@
                     <h5>There are no expenses stored! Click the button above to add a new one!</h5>
                 @endforelse
             </div>
+            <!-- End list expenses widget -->
 
+            @if(!request()->get('search'))
             <ul class="pagination d-flex justify-content-center">
-                {{ $expenses->onEachSide(5)->links() }}
+                {{ $expenses->links() }}
             </ul>
+                @endif
 
         </div>
     </div>

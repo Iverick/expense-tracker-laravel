@@ -78,7 +78,7 @@
                 @csrf
                 @method('PUT')
 
-                @include('_update_expense_form')
+                @include('components._update_expense_form')
             </form>
         </div>
     </div>

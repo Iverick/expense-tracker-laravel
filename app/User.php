@@ -43,7 +43,7 @@ class User extends Authenticatable
      *
      * @return HasMany
      */
-    public function expenses(): HasMany
+    public function expenses()
     {
         return $this->hasMany(Expense::class)->latest();
     }

@@ -6,6 +6,7 @@ use App\Expense;
 use App\Http\Requests\StoreExpenseRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class ExpensesController extends Controller
@@ -14,9 +15,24 @@ class ExpensesController extends Controller
      * Displays a list of expenses.
      *
      */
-    public function index()
+    public function index(Request $request)
     {
         $expenses = Auth::user()->expenses()->simplePaginate(5);
+
+        if ($request->has('search')) {
+            $query = strtolower($request->get('search'));
+            $expenses = $expenses->filter(function($expense) use($query) {
+                if (Str::contains(strtolower($expense->title), $query)) {
+                    return true;
+                }
+
+                if (Str::contains(strtolower($expense->notes), $query)) {
+                    return true;
+                }
+
+                return false;
+            });
+        }
 
         return view('expenses.index', compact('expenses'));
     }
