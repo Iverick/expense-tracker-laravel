@@ -4,27 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Expense;
 use App\Http\Requests\StoreExpenseRequest;
+use App\Services\ExpenseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 
 class ExpensesController extends Controller
 {
     /**
      * Displays a list of expenses.
      *
+     * @param  Request $request
+     * @param  ExpenseService $expenseService
+     *
+     * @return View template
      */
-    public function index(Request $request)
+    public function index(Request $request, ExpenseService $expenseService)
     {
         if ($request->has('search')) {
             // If URL search param was provided use helper method to search through the DB entries.
-            $expenses = $this->searchExpenseItems($request);
+            $expenses = $expenseService->searchExpenseItems($request);
             return view('expenses.index', compact('expenses'));
         }
 
         // Returns paginated list of elements
         $expenses = Auth::user()->expenses()->simplePaginate(5);
+
         return view('expenses.index', compact('expenses'));
     }
 
@@ -105,29 +109,5 @@ class ExpensesController extends Controller
         $expense->delete();
 
         return redirect(route('expenses.index'));
-    }
-
-    /**
-     * Helper method filters the Expense entries based on the search URL parameter.
-     *
-     * @param Request $request
-     * @return Expense[]|\Illuminate\Database\Eloquent\Collection
-     */
-    public function searchExpenseItems(Request $request)
-    {
-        $query = strtolower($request->get('search'));
-        $expenses = Auth::user()->expenses;
-        $expenses = $expenses->filter(function ($expense) use ($query) {
-            if (Str::contains(strtolower($expense->title), $query)) {
-                return true;
-            }
-
-            if (Str::contains(strtolower($expense->notes), $query)) {
-                return true;
-            }
-
-            return false;
-        });
-        return $expenses;
     }
 }
