@@ -40,10 +40,7 @@
                 </div>
 
                 <div class="collapse" id="collapseCreateForm">
-                    <form method="POST" action="{{ route('expenses.store') }}">
-                        @csrf
-                        @include('components._create_expense_form')
-                    </form>
+                    @include('components._create_expense_form')
                 </div>
 
                 <hr>

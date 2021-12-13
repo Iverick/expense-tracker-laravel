@@ -46,11 +46,12 @@ class ExpensesController extends Controller
             'title' => $request->title,
             'price' => $request->price,
             'amount' => $request->amount,
-            'notes' => $request->notes
+            'notes' => $request->notes,
+            'is_important' => $request->boolean('is_important'),
         ]);
 
         if ($expense) {
-            return redirect()->route('expenses.show', compact('expense'));
+            return redirect()->route('expenses.index');
         }
 
         return redirect()->back();
@@ -87,7 +88,8 @@ class ExpensesController extends Controller
             'title' => $request->title,
             'price' => $request->price,
             'amount' => $request->amount,
-            'notes' => $request->notes
+            'notes' => $request->notes,
+            'is_important' => $request->boolean('is_important'),
         ]);
 
         return redirect(route('expenses.show', $expense));

@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-7 d-flex justify-content-center">
             <div class="card" style="width: 18rem;">
-                <div class="card-body">
+                <div class="card-body {{ $expense->is_important ? 'bg-warning' : '' }}">
                     <h4 class="card-title text-center">{{ $expense->title }}</h4>
                     <hr>
 
@@ -74,12 +74,7 @@
 
         <div class="col-5">
             <h3 class="mt-3 text-center">Edit this expense</h3>
-            <form method="POST" action="{{ route('expenses.update', $expense->id) }}">
-                @csrf
-                @method('PUT')
-
-                @include('components._update_expense_form')
-            </form>
+            @include('components._update_expense_form')
         </div>
     </div>
 @endsection

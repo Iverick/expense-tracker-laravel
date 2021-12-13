@@ -27,7 +27,7 @@ class StoreExpenseRequest extends FormRequest
             'title' => 'required|string|max:55',
             'price' => 'required|numeric|between:0,999999',
             'amount' => 'required|integer|between:1,200',
-            'notes' => 'nullable'
+            'notes' => 'nullable',
         ];
     }
 }
