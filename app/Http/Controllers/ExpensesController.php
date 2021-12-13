@@ -13,8 +13,8 @@ class ExpensesController extends Controller
     /**
      * Displays a list of expenses.
      *
-     * @param  Request $request
-     * @param  ExpenseService $expenseService
+     * @param Request $request
+     * @param ExpenseService $expenseService
      *
      * @return View template
      */
@@ -23,6 +23,7 @@ class ExpensesController extends Controller
         if ($request->has('search')) {
             // If URL search param was provided use helper method to search through the DB entries.
             $expenses = $expenseService->searchExpenseItems($request);
+
             return view('expenses.index', compact('expenses'));
         }
 

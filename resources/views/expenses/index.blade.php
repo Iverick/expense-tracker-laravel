@@ -54,7 +54,7 @@
             <div>
                 <h3 class="mt-3 mb-3">List of your expenses</h3>
                 @forelse($expenses as $expense)
-                    <div class="card mt-2 mb-4 rounded-3 shadow-sm">
+                    <div class="card mt-2 mb-4 rounded-3 shadow-sm {{ $expense->is_important ? 'bg-warning' : '' }}">
                         <h5 class="card-header text-center">
                             <a href="{{ route('expenses.show', $expense) }}">
                                 {{ $expense->title }}
@@ -63,10 +63,10 @@
 
                         <div class="card-body">
                             <ul class="list-group list-unstyled justify-content-around">
-                                <li class="list-group-item">
+                                <li class="list-group-item {{ $expense->is_important ? 'bg-warning' : '' }}">
                                     <h5>Price: {{ $expense->price }}</h5>
                                 </li>
-                                <li class="list-group-item">
+                                <li class="list-group-item {{ $expense->is_important ? 'bg-warning' : '' }}">
                                     <p>Added: {{ $expense->created_at->diffForHumans() }}</p>
                                 </li>
                             </ul>
