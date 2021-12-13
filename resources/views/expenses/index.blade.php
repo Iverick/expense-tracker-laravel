@@ -39,7 +39,7 @@
                     </a>
                 </div>
 
-                <div class="collapse" id="collapseCreateForm">
+                <div class="collapse mt-3 rounded border" id="collapseCreateForm">
                     @include('components._create_expense_form')
                 </div>
 

@@ -72,7 +72,7 @@
             </div>
         </div> <!-- div col-7 -->
 
-        <div class="col-5">
+        <div class="col-5 rounded border bg-white">
             <h3 class="mt-3 text-center">Edit this expense</h3>
             @include('components._update_expense_form')
         </div>
