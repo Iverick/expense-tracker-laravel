@@ -22,11 +22,13 @@
                     </form>
                 </div>
             </div>
+            <!-- End of search form widget -->
 
             <hr>
 
+            <!-- Add Expense form widget -->
             @if(!request()->get('search'))
-                <!-- Add Expense form widget -->
+
                 <div class="flex">
                     <a class="btn btn-primary"
                        data-toggle="collapse"
@@ -44,31 +46,44 @@
                 </div>
 
                 <hr>
-                <!-- End of the add Expense form widget -->
             @endif
+            <!-- End of the add Expense form widget -->
 
             <!-- List expenses widget -->
             <div>
                 <h3 class="mt-3 mb-3">List of your expenses</h3>
                 @forelse($expenses as $expense)
                     <div class="card mt-2 mb-4 rounded-3 shadow-sm {{ $expense->is_important ? 'bg-warning' : '' }}">
-                        <h5 class="card-header text-center">
-                            <a href="{{ route('expenses.show', $expense) }}">
-                                {{ $expense->title }}
-                            </a>
+                        <h5 class="card-header text-center text-secondary">
+                            {{ $expense->title }}
                         </h5>
 
                         <div class="card-body">
                             <ul class="list-group list-unstyled justify-content-around">
                                 <li class="list-group-item {{ $expense->is_important ? 'bg-warning' : '' }}">
-                                    <h5>Price: {{ $expense->price }}</h5>
+                                    <h5>Price: ${{ $expense->price }}</h5>
                                 </li>
                                 <li class="list-group-item {{ $expense->is_important ? 'bg-warning' : '' }}">
                                     <p>Added: {{ $expense->created_at->diffForHumans() }}</p>
                                 </li>
                             </ul>
-                        </div>
+
+                            <div class="mt-3 text-center">
+                                <a href="{{ route('expenses.show', $expense) }}" class="card-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-check2-circle mr-2"
+                                         viewBox="0 0 16 16">
+                                        <path
+                                            d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                                        <path
+                                            d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                                    </svg>
+                                    <strong>Edit</strong>
+                                </a>
+                            </div>
+                        </div> <!-- card-body -->
                     </div>
+
                 @empty
                     <h5>There are no expenses stored! Click the button above to add a new one!</h5>
                 @endforelse

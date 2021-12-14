@@ -46,7 +46,6 @@
                         <hr>
                     @endempty
 
-
                     <div class="row mt-2">
                         <div class="col-5">
                             <p>Bought on:</p>
