@@ -55,7 +55,9 @@
                 @forelse($expenses as $expense)
                     <div class="card mt-2 mb-4 rounded-3 shadow-sm {{ $expense->is_important ? 'bg-warning' : '' }}">
                         <h5 class="card-header text-center text-secondary">
-                            {{ $expense->title }}
+                            <a href="{{ route('expenses.show', $expense) }}">
+                                {{ $expense->title }}
+                            </a>
                         </h5>
 
                         <div class="card-body">
